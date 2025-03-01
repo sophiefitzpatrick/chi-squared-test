@@ -8,6 +8,8 @@ The script pulls the data from a csv saved in the root of this repo. I've added 
 
 <img width="524" alt="image" src="https://github.com/user-attachments/assets/a53d6131-49d4-4630-8f0d-638fa312a6e8" />
 
+
+
 Here is the exported csv:
 ```
 ,responded,not_responded,total
