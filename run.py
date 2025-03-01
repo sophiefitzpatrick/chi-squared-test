@@ -51,15 +51,19 @@ def look_up_critical_value(df, significance_level):
 
     return critical_value
 
-def calculate_chi_square(significance_level=0.05):
+def run(significance_level=0.05):
     json_table = convert_csv_to_json()
-    column_totals = json_table[-1]  # get row of totals
-    json_table.pop()  # remove row of totals from data
+    column_totals = json_table[-1]  # get row of column totals to utilise later
+    json_table.pop()  # remove row of column totals from data as we don't want to loop these
 
+    # we need the number of total observations to calculate the expected values later
     total_observations = int(column_totals.get('total'))
 
+    # create a dict of cell data to return with raw values so as not obfuscate the data used to calculate the chi squared statistic
     cells = []
     for row in json_table:
+        # at this point we only have access to some row data
+        # begin building the dict
         cell_data = {
             "row_name": row.get(''),
             "row_total": int(row.get('total')),
@@ -70,15 +74,18 @@ def calculate_chi_square(significance_level=0.05):
             "chi_squared_value": None
         }
 
+        # from each row, remove the key,value pairs that are not columns
         row.pop('')
         row.pop('total')
 
+        # append the column data to the cell dict
         for column in row:
             cell_data = cell_data.copy()
             cell_data['column_name'] = column
             cell_data['observed_cell_value'] = int(row.get(column))
             cells.append(cell_data)
 
+    # loop through all cells and add additional calculated data to the individual cell dicts
     chi_squared_values = []
     for cell in cells:
         for key, _ in cell.items():
@@ -97,12 +104,14 @@ def calculate_chi_square(significance_level=0.05):
         cell['chi_squared_value'] = round(chi_squared_value, 2)
         chi_squared_values.append(round(chi_squared_value, 2))
 
+    # analyse the data
     chi_squared_stat = round(sum(chi_squared_values), 2)  # sums up all chi_squared_values
     df = len(cells)  # degree of freedom (number of rows * columns)
     critical_value = float(look_up_critical_value(df, significance_level))
     hypotheses = ["null: there is no relationship between x and y", "alt: there is a relationship between x and y"]
     p_value = round(1 - chi2.cdf(chi_squared_stat, df), 2)
 
+    # build dict to return data as a json
     returned_data = {
         'chi_squared_statistic': chi_squared_stat,
         'df': df,
@@ -112,6 +121,7 @@ def calculate_chi_square(significance_level=0.05):
         'cell_data': cells,
     }
 
+    # ensure each created file has a different datetime
     current_datetime = datetime.now()
     file_name = current_datetime.strftime('%m.%d.%Y_%H:%M:%S')
     file_name = "%s.json" % file_name
@@ -120,4 +130,5 @@ def calculate_chi_square(significance_level=0.05):
         json.dump(returned_data, f)
 
 
-calculate_chi_square()
+# run the function
+run()
