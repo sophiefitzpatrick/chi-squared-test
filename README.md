@@ -17,7 +17,7 @@ total,61,44,105
 
 The script returns a .json in the following format (with examples):
 
-``` json
+```
 {'chi_square_statistic': 5.56, 'df': 4, 'critical_value': 9.488, 'p-value': 0.23, 'hypotheses': ['null: there is no relationship between x and y', 'alt: there is a relationship between x and y'], 'cell_data': [{'row_name': 'treated', 'row_total': 50, 'column_name': 'no_responded_to_treatment', 'column_total': 61, 'expected_cell_value': 29.05, 'observed_cell_value': 35, 'chi_squared_value': 1.22}, {'row_name': 'treated', 'row_total': 50, 'column_name': 'no_did_not_respond_to_treatment', 'column_total': 44, 'expected_cell_value': 20.95, 'observed_cell_value': 15, 'chi_squared_value': 1.69}, {'row_name': 'not_treated', 'row_total': 55, 'column_name': 'no_responded_to_treatment', 'column_total': 61, 'expected_cell_value': 31.95, 'observed_cell_value': 26, 'chi_squared_value': 1.11}, {'row_name': 'not_treated', 'row_total': 55, 'column_name': 'no_did_not_respond_to_treatment', 'column_total': 44, 'expected_cell_value': 23.05, 'observed_cell_value': 29, 'chi_squared_value': 1.54}]}
 ```
 
