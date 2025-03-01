@@ -23,6 +23,7 @@ def calculate_chi_square_value(observed_cell_value, expected_cell_value):
     return ((observed_cell_value - expected_cell_value) ** 2) / expected_cell_value
 
 def look_up_critical_value(df, significance_level):
+    # significance level is hard coded but can be changed
     significance_level_index = {
         'df': 0,
         '0.995': 1,
@@ -37,9 +38,11 @@ def look_up_critical_value(df, significance_level):
         '0.002': 10,
         '0.001': 11
     }
+    # look up the index of the significance level
     significance_index = significance_level_index.get(str(significance_level))
 
     with open('chi_squared_distribution.csv', 'r') as csvfile:
+        # chi_squared_distribution.csv is the Chi Squared Distribution table
         csv_reader = csv.reader(csvfile)
         for line in csv_reader:
             if line[0] == 'df':
@@ -47,6 +50,7 @@ def look_up_critical_value(df, significance_level):
                 continue
 
             if int(line[0]) == df:
+                # use the index to find the correct critical value within the row
                 critical_value = line[significance_index]
 
     return critical_value
