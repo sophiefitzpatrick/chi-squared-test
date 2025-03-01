@@ -51,7 +51,7 @@ def look_up_critical_value(df, significance_level):
 
     return critical_value
 
-def run(significance_level=0.05):
+def calculate_chi_square(significance_level=0.05):
     json_table = convert_csv_to_json()
     column_totals = json_table[-1]  # get row of totals
     json_table.pop()  # remove row of totals from data
@@ -120,4 +120,4 @@ def run(significance_level=0.05):
         json.dump(returned_data, f)
 
 
-run()
+calculate_chi_square()
